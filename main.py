@@ -30,7 +30,7 @@ loading and preprocessing
     return torch.cat(images, dim=0), image_paths
 
 
-train_images, train_path = load_preprocess_images("dataset/train")
+train_images, train_path = load_preprocess_images("dataset\\train")
 
 
 # print(train_path)
@@ -50,7 +50,7 @@ train_encoded = encode_image(train_images)
 # print(train_encoded.shape)
 # # torch.Size([16, 512])
 
-test_images, test_path = load_preprocess_images("dataset/test")
+test_images, test_path = load_preprocess_images("dataset\\test")
 # print(test_path)
 # print(test_images.shape)
 # # torch.Size([3, 3, 224, 224])
@@ -92,3 +92,35 @@ for test_path, paths, indices in zip(test_path, closest_paths, closest_indices):
 # for test image husky.jpg nearest image:
 # husky4.jpg, husky2.jpg, husky3.jpg
 # nearest indices image: [15, 13, 14]
+
+"""
+взяти тестове зображення і побудувати класифікатор (код можна з практики). 
+дослідити як промпт впливає на вихідні ймовірності.
+наприклад: спробувати "a photo of a cat", "cat", "nice cat", "a photo of a {color} cat", etc
+"""
+
+
+def prob(img_path, prompts):
+    image = preprocess(Image.open(img_path)).unsqueeze(0).to(device)
+    text = clip.tokenize(prompts).to(device)
+
+    with torch.no_grad():
+        logits_per_image, logits_per_text = model(image, text)
+        probs = logits_per_image.softmax(dim=-1).cpu().numpy()
+
+    res = []
+    for prompt, prob in zip(prompts, probs[0]):
+        print(f'prompt {prompt} - accuracy: {prob}')
+        res.append((prompt, prob))
+
+    return res
+
+
+prompts = ["a photo of a yellow cat", "a photo of a orange cat", "a photo of a sleeping cat", "a photo of a siting cat"]
+img_path = "dataset\\test\\cat.jpg"
+
+prob(img_path, prompts)
+# prompt a photo of a yellow cat - accuracy: 0.479707807302475
+# prompt a photo of a orange cat - accuracy: 0.395429402589798
+# prompt a photo of a sleeping cat - accuracy: 0.00027032126672565937
+# prompt a photo of a siting cat - accuracy: 0.12459243834018707
