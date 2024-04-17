@@ -110,7 +110,7 @@ def prob(img_path, prompts):
 
     res = []
     for prompt, prob in zip(prompts, probs[0]):
-        print(f'prompt {prompt} - accuracy: {prob}')
+        print(f'prompt: {prompt} - accuracy: {prob}')
         res.append((prompt, prob))
 
     return res
