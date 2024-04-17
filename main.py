@@ -116,11 +116,13 @@ def prob(img_path, prompts):
     return res
 
 
-prompts = ["a photo of a yellow cat", "a photo of a orange cat", "a photo of a sleeping cat", "a photo of a siting cat"]
+prompts = ["cat", "sсottish straight", "a photo of a yellow cat", "a photo of a orange cat", "a photo of a sleeping cat", "a photo of a siting cat"]
 img_path = "dataset\\test\\cat.jpg"
 
 prob(img_path, prompts)
-# prompt a photo of a yellow cat - accuracy: 0.479707807302475
-# prompt a photo of a orange cat - accuracy: 0.395429402589798
-# prompt a photo of a sleeping cat - accuracy: 0.00027032126672565937
-# prompt a photo of a siting cat - accuracy: 0.12459243834018707
+# prompt: cat - accuracy: 0.02178829163312912
+# prompt: Sсottish straight - accuracy: 8.28154370537959e-05
+# prompt: a photo of a yellow cat - accuracy: 0.46921610832214355
+# prompt: a photo of a orange cat - accuracy: 0.3867809474468231
+# prompt: a photo of a sleeping cat - accuracy: 0.00026440905639901757
+# prompt: a photo of a siting cat - accuracy: 0.12186747789382935
